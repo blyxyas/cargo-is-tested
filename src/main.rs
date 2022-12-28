@@ -1,34 +1,53 @@
-use std::env;
+use if_chain::if_chain;
 use std::fs;
 use std::io::Read;
-use std::process;
-use syn;
-use syn::AttrStyle;
+use syn::{self, File};
+
+use colored::Colorize;
+use clap::Parser;
+
+#[derive(Parser)]
+#[command(bin_name = "cargo", name = "cargo")]
+enum Cargo {
+    IsTested(IsTested),
+}
+
+#[derive(clap::Args)]
+#[command(author, version, about)]
+struct IsTested {
+    input: String,
+}
 
 fn main() {
-    for path in fs::read_dir("./src")
+    let Cargo::IsTested(args) = Cargo::parse();
+    for path in fs::read_dir(format!("{}/src", args.input))
         .expect("You need to execute this command in a workspace (no 'src' directory found).")
     {
         let raw_filename = path.unwrap().file_name();
-		let filename = raw_filename.to_str().unwrap();
-		dbg!(&filename);
-        let mut file = fs::File::open(format!("src/{filename}"))
-						.expect("Unable to open file");
+        let filename = raw_filename.to_str().unwrap();
+
+        let mut file =
+            fs::File::open(format!("{}/src/{filename}", args.input)).expect("Unable to open file");
+
         let mut src = String::new();
+
         file.read_to_string(&mut src).expect("Unable to read file");
 
-		let syntax = syn::parse_file(&src).expect("Unable to parse file");
+        let syntax = syn::parse_file(&src).expect("Unable to parse file");
 
-		for attr in syntax.attrs {
-			dbg!(&attr);
-			if let Some(ident) = attr.path.get_ident() {
-				dbg!(&ident.to_string());
-				if ident.to_string() == "check_tests" {
-					if attr.tokens.to_string() == "strict" {
-						dbg!("AAA");
-					}
-				}
+        if_chain! {
+            if let Some(shebang) = &syntax.shebang;
+            if shebang[2..].trim().to_lowercase() == "is tested";
+            then {
+				println!("[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
+				check_tests(&syntax);
+			} else {
+				println!("[{}] {}", filename.bright_cyan().bold(), "Testing disabled".red())
 			}
-		}
+        }
     }
+}
+
+fn check_tests(file: &File) {
+	
 }

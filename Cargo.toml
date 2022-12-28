@@ -1,5 +1,5 @@
 [package]
-name = "is_tested"
+name = "cargo-is-tested"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,6 +7,9 @@ edition = "2021"
 
 [dependencies]
 syn = {version = "1.0.107", features = ["full", "extra-traits"]}
+clap = { version = "4.0.32", features = ["derive"]}
+if_chain = "1.0.2"
+colored = "2.0.0"
 
 [workspace]
-members = ["is_tested_plugin", "testing"]
+members = ["is_tested_attribute", "testing"]

@@ -1,14 +1,13 @@
 [package]
-name = "is_tested_plugin"
+name = "is_tested_attribute"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-name = "is_tested_plugin"
-path = "src/lib.rs"
-plugin = true
-crate-type = ["dylib"]
+proc-macro = true
 
 [dependencies]
+syn = "1.0.107"
+darling = "0.14.2"
