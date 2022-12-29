@@ -22,11 +22,9 @@ impl Pass for Emptiness {
     fn check_item(filename: &str, item: &Item) -> Result<()> {
         if let Item::Fn(func) = item {
             if func.block.stmts.is_empty() {
-                let span_start = func.sig.span().start();
-                let span_end = func.sig.span().end();
                 Err(Emptiness {
                     src: NamedSource::new(filename, func.sig.to_token_stream().to_string()),
-                    span: span!(span_start, span_end),
+                    span: span!(func.sig),
                 })?;
             }
         }

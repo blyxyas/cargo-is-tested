@@ -3,9 +3,11 @@ use thiserror::Error;
 
 #[macro_export]
 macro_rules! span {
-	($span_start: expr, $span_end: expr) => {
-		($span_start.line * $span_start.column, ($span_end.column - $span_start.column) - ($span_start.line * $span_start.column)).into()
-	};
+	($item: expr) => {{
+		let span_start = $item.span().start();
+		let span_end = $item.span().end();
+		(span_start.line * span_start.column, (span_end.column - span_start.column) - (span_start.line * span_start.column)).into()
+	}}
 }
 
 #[derive(Error, Debug, Diagnostic)]
@@ -49,11 +51,11 @@ pub enum ErrorKind {
 	#[diagnostic(
 		code(UNEXPECTED_TOKEN),
 		url(docsrs),
-		help("Try removing this token")		
+		help("Try removing the the unexpected token in `{filename:?}`")		
 	)]
 	UnexpectedToken {
-		src: NamedSource,
-		span: SourceSpan
+		filename: String,
+		// There's no span.
 	}
 
 }

@@ -1,9 +1,9 @@
 use if_chain::if_chain;
 use lints::check_lints;
-use miette::{NamedSource, Result};
+use miette::{NamedSource, Result, SourceSpan};
 use std::fs;
 use std::io::Read;
-use syn::{self, spanned::Spanned, File, Item, Lit, Meta, MetaList, NestedMeta};
+use syn::{self, spanned::Spanned, File, Item, Lit, Meta, MetaList, NestedMeta, __private::IntoSpans};
 
 use clap::Parser;
 use colored::Colorize;
@@ -36,6 +36,8 @@ fn main() -> Result<()> {
         let raw_filename = path.unwrap().file_name();
         let filename = raw_filename.to_str().unwrap();
 
+		println!("Checking [{}]", filename.bright_cyan().bold());
+
         let src = match fs::read_to_string(format!("{}/src/{filename}", args.input)) {
             Ok(s) => s,
             Err(e) => return Err(ErrorKind::IoError(e).into()),
@@ -44,11 +46,7 @@ fn main() -> Result<()> {
         let syntax = match syn::parse_file(&src) {
             Ok(syn) => syn,
             Err(e) => {
-				let span = e.span().start();
-                return Err(ErrorKind::UnexpectedToken {
-                    src: NamedSource::new(filename, src),
-                    span: (span.line, span.column).into(),
-                }
+				return Err(ErrorKind::UnexpectedToken { filename: filename.to_owned() }
                 .into())
             }
         };
@@ -57,13 +55,13 @@ fn main() -> Result<()> {
             if let Some(shebang) = &syntax.shebang;
             if shebang[2..].trim().to_lowercase() == "is tested";
             then {
-                println!("[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
+                println!("\t[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
                 match check_tests(&src, filename, &syntax) {
-                    Ok(_) => {println!("[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
+                    Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
                     Err(e) => {return Err(e)}
                 }
             } else {
-                println!("[{}] {}", filename.bright_cyan().bold(), "Testing disabled".red())
+                println!("\t[{}] {}", filename.bright_cyan().bold(), "Testing disabled".red())
             }
         };
     }

@@ -18,14 +18,12 @@ pub struct ItemValidness {
 impl Pass for ItemValidness {
 	fn check_item(filename: &str, item: &Item) -> Result<()> {
 		if let Item::Verbatim(verbatim) = item {
-			let span_start = verbatim.span().start();
-			let span_end = verbatim.span().end();
 			return Err(ItemValidness {
 				src: NamedSource::new(
 					filename,
 					verbatim.to_string(),
 				),
-				span: span!(span_start, span_end)
+				span: span!(verbatim)
 			}.into());
 		}
 		Ok(())
