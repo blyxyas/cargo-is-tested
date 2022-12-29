@@ -2,13 +2,16 @@ use if_chain::if_chain;
 use miette::Result;
 use std::fs;
 use std::io::Read;
-use syn::{self, File, Item, Meta, MetaList, Lit, NestedMeta};
+use syn::{self, File, Item, Lit, Meta, MetaList, NestedMeta};
 
 use clap::Parser;
 use colored::Colorize;
 
-mod lints;
 mod error;
+mod lints;
+mod flags;
+
+use error::ErrorKind;
 
 #[derive(Parser)]
 #[command(bin_name = "cargo", name = "cargo")]
@@ -22,20 +25,20 @@ struct IsTested {
     input: String,
 }
 
-fn main() {
+fn main() -> Result<()> {
     let Cargo::IsTested(args) = Cargo::parse();
-    for path in fs::read_dir(format!("{}/src", args.input))
-        .expect("You need to execute this command in a workspace (no 'src' directory found).")
-    {
+    let paths = match fs::read_dir(format!("{}/src", args.input)) {
+        Ok(p) => p,
+        Err(e) => return Err(ErrorKind::IoError(e).into()),
+    };
+    for path in paths {
         let raw_filename = path.unwrap().file_name();
         let filename = raw_filename.to_str().unwrap();
 
-        let mut file =
-            fs::File::open(format!("{}/src/{filename}", args.input)).expect("Unable to open file");
-
-        let mut src = String::new();
-
-        file.read_to_string(&mut src).expect("Unable to read file");
+        let src = match fs::read_to_string(format!("{}/src/{filename}", args.input)) {
+            Ok(s) => s,
+            Err(e) => return Err(ErrorKind::IoError(e).into()),
+        };
 
         let syntax = syn::parse_file(&src).expect("Unable to parse file");
 
@@ -44,15 +47,19 @@ fn main() {
             if shebang[2..].trim().to_lowercase() == "is tested";
             then {
                 println!("[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
+				show_flags(shebang);
                 match check_tests(&args.input, &syntax) {
-					Ok(_) => {},
-					Err(e) => {panic!("{}", e)}
-				}
+                    Ok(_) => {println!("[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
+                    Err(e) => {return Err(e)}
+                }
             } else {
                 println!("[{}] {}", filename.bright_cyan().bold(), "Testing disabled".red())
             }
         }
     }
+
+	println!("{}", "All tests were checked!".green());
+    Ok(())
 }
 
 fn check_tests(workdir: &str, file: &File) -> Result<()> {
@@ -75,9 +82,11 @@ fn check_tests(workdir: &str, file: &File) -> Result<()> {
             Type(x) => &x.attrs,
             Union(x) => &x.attrs,
             Use(x) => &x.attrs,
-            _ => {todo!()}
+            _ => {
+                todo!()
+            }
         };
     }
 
-	Ok(())
+    Ok(())
 }
