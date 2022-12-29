@@ -26,6 +26,7 @@ dependencies = [
  "clap",
  "colored",
  "if_chain",
+ "proc-macro-error",
  "syn",
 ]
 
@@ -157,7 +158,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "is_tested_attribute"
+name = "is_tested"
 version = "0.1.0"
 dependencies = [
  "proc-macro-error",
@@ -280,7 +281,7 @@ dependencies = [
 name = "testing"
 version = "0.1.0"
 dependencies = [
- "is_tested_attribute",
+ "is_tested",
 ]
 
 [[package]]

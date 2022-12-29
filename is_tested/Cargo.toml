@@ -1,5 +1,5 @@
 [package]
-name = "is_tested_attribute"
+name = "is_tested"
 version = "0.1.0"
 edition = "2021"
 

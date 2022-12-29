@@ -1,7 +1,9 @@
 #! is tested
-use is_tested_attribute::is_tested;
+mod other;
 
-#[is_tested("")]
+use is_tested::is_tested;
+
+#[is_tested("src/other.rs")]
 fn main() {
     println!("Hello, world!");
 }
