@@ -1,4 +1,4 @@
-#! is tested
+#!is-tested validness
 mod other;
 
 use is_tested::is_tested;

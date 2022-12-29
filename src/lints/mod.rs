@@ -2,8 +2,14 @@ use miette::Result;
 use syn::{Attribute, File, Item};
 use thiserror::Error;
 
-mod valid_item;
+mod validness;
 mod emptiness;
+
+pub const LINT_NAMES: [&str; 3] = [
+	"emptiness",
+	"validness",
+	"strict"
+];
 
 pub trait Pass {
     fn check_file(filename: &str, file: &File) -> Result<()> {
@@ -26,7 +32,7 @@ pub trait Pass {
 pub fn check_lints(filename: &str, file: &File) -> Result<()> {
     for item in &file.items {
         emptiness::Emptiness::check_item(filename, &item)?;
-		valid_item::ItemValidness::check_item(filename, &item)?;
+		validness::ItemValidness::check_item(filename, &item)?;
 	};
 
 	Ok(())

@@ -1,9 +1,8 @@
 use if_chain::if_chain;
 use lints::check_lints;
-use miette::{NamedSource, Result, SourceSpan};
+use miette::Result;
 use std::fs;
-use std::io::Read;
-use syn::{self, spanned::Spanned, File, Item, Lit, Meta, MetaList, NestedMeta, __private::IntoSpans};
+use syn::{self, File};
 
 use clap::Parser;
 use colored::Colorize;
@@ -13,6 +12,8 @@ mod flags;
 mod lints;
 
 use error::ErrorKind;
+
+use crate::flags::check_flags;
 
 #[derive(Parser)]
 #[command(bin_name = "cargo", name = "cargo")]
@@ -45,7 +46,7 @@ fn main() -> Result<()> {
 
         let syntax = match syn::parse_file(&src) {
             Ok(syn) => syn,
-            Err(e) => {
+            Err(_) => {
 				return Err(ErrorKind::UnexpectedToken { filename: filename.to_owned() }
                 .into())
             }
@@ -53,10 +54,16 @@ fn main() -> Result<()> {
 
         if_chain! {
             if let Some(shebang) = &syntax.shebang;
-            if shebang[2..].trim().to_lowercase() == "is tested";
+            if shebang.to_lowercase().contains("is-tested");
             then {
                 println!("\t[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
-                match check_tests(&src, filename, &syntax) {
+				
+				match check_flags(filename, shebang) {
+					Ok(()) => {}
+					Err(e) => {return Err(e)}
+				}
+
+                match check_tests(filename, &syntax) {
                     Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
                     Err(e) => {return Err(e)}
                 }
@@ -73,6 +80,6 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn check_tests(source: &str, filename: &str, file: &File) -> Result<()> {
+fn check_tests(filename: &str, file: &File) -> Result<()> {
     check_lints(filename, file)
 }

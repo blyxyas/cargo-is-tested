@@ -3,11 +3,15 @@ use thiserror::Error;
 
 #[macro_export]
 macro_rules! span {
-	($item: expr) => {{
-		let span_start = $item.span().start();
-		let span_end = $item.span().end();
-		(span_start.line * span_start.column, (span_end.column - span_start.column) - (span_start.line * span_start.column)).into()
-	}}
+    ($item: expr) => {{
+        let span_start = $item.span().start();
+        let span_end = $item.span().end();
+        (
+            span_start.line * span_start.column,
+            (span_end.column - span_start.column) - (span_start.line * span_start.column),
+        )
+            .into()
+    }};
 }
 
 #[derive(Error, Debug, Diagnostic)]
@@ -23,17 +27,18 @@ pub enum ErrorKind {
     /// [More information about how `syn` parses items](https://docs.rs/syn/latest/syn/enum.Item.html)
     ///
     /// [`syn`]: https://docs.rs/syn
-    #[error("Couldn't parse error")]
+    #[error("Couldn't parse this token")]
     #[diagnostic(
         code(FILE_PARSE_ERROR),
         url(docsrs),
-        help("Try fixing the highlighted tokens")
     )]
     FileParseError {
         #[source_code]
         src: NamedSource,
         #[label("This token")]
         span: SourceSpan,
+		#[help]
+        note: Option<String>,
     },
 
     #[error(transparent)]
@@ -46,16 +51,14 @@ pub enum ErrorKind {
     //     flag: String,
     //     span: SourceSpan,
     // },
-
-	#[error("Unexpected token")]
-	#[diagnostic(
-		code(UNEXPECTED_TOKEN),
-		url(docsrs),
-		help("Try removing the the unexpected token in `{filename:?}`")		
-	)]
-	UnexpectedToken {
-		filename: String,
-		// There's no span.
-	}
-
+    #[error("Unexpected token")]
+    #[diagnostic(
+        code(UNEXPECTED_TOKEN),
+        url(docsrs),
+        help("Try removing the the unexpected token in `{filename:?}`")
+    )]
+    UnexpectedToken {
+        filename: String,
+        // There's no span.
+    },
 }

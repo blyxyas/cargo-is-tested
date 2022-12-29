@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use syn::{parse_macro_input, AttributeArgs, NestedMeta, Lit};
-use proc_macro_error::{proc_macro_error, emit_call_site_warning, emit_call_site_error};
+use proc_macro_error::{proc_macro_error, emit_call_site_error};
 
 const FORBIDDEN_PATHS: [&str; 4] = [
 	"todo",
