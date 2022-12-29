@@ -1,33 +1,35 @@
-use super::Pass;
-use miette::{Diagnostic, SourceSpan, NamedSource};
+use super::{super::span, Pass};
+use miette::Result;
+use miette::{Diagnostic, NamedSource, SourceSpan};
 use syn::{Item, __private::ToTokens, spanned::Spanned};
 use thiserror::Error;
-use miette::Result;
-
 
 #[derive(Debug, Error, Diagnostic)]
-#[error("oops!")]
-#[diagnostic(
-	code(E002)
-)]
+#[error("Empty items aren't recommended")]
+#[diagnostic(code(EMPTY_ITEM))]
 pub struct Emptiness {
-	#[source_code]
-	src: NamedSource,
-	#[label("Right here")]
-	span: SourceSpan,
+    #[source_code]
+    src: NamedSource,
+    #[label("Right here")]
+    span: SourceSpan,
 }
 
+// 12345678
+// 1 * 8
+//
+
 impl Pass for Emptiness {
-	fn check_item(item: &Item) -> Result<()> {
-		if let Item::Fn(func) = item {
-			if func.block.stmts.is_empty() {
-				let span = item.span().start();
-				Err(Emptiness {
-					src: NamedSource::new("bad_file.rs", item.to_token_stream().to_string()),
-					span: (span.line, span.column).into()
-				})?;
-			}
-		}
-		Ok(())
-	}
+    fn check_item(filename: &str, item: &Item) -> Result<()> {
+        if let Item::Fn(func) = item {
+            if func.block.stmts.is_empty() {
+                let span_start = func.sig.span().start();
+                let span_end = func.sig.span().end();
+                Err(Emptiness {
+                    src: NamedSource::new(filename, func.sig.to_token_stream().to_string()),
+                    span: span!(span_start, span_end),
+                })?;
+            }
+        }
+        Ok(())
+    }
 }

@@ -1,15 +1,16 @@
 use if_chain::if_chain;
-use miette::Result;
+use lints::check_lints;
+use miette::{NamedSource, Result};
 use std::fs;
 use std::io::Read;
-use syn::{self, File, Item, Lit, Meta, MetaList, NestedMeta};
+use syn::{self, spanned::Spanned, File, Item, Lit, Meta, MetaList, NestedMeta};
 
 use clap::Parser;
 use colored::Colorize;
 
 mod error;
-mod lints;
 mod flags;
+mod lints;
 
 use error::ErrorKind;
 
@@ -40,53 +41,40 @@ fn main() -> Result<()> {
             Err(e) => return Err(ErrorKind::IoError(e).into()),
         };
 
-        let syntax = syn::parse_file(&src).expect("Unable to parse file");
+        let syntax = match syn::parse_file(&src) {
+            Ok(syn) => syn,
+            Err(e) => {
+				let span = e.span().start();
+                return Err(ErrorKind::UnexpectedToken {
+                    src: NamedSource::new(filename, src),
+                    span: (span.line, span.column).into(),
+                }
+                .into())
+            }
+        };
 
         if_chain! {
             if let Some(shebang) = &syntax.shebang;
             if shebang[2..].trim().to_lowercase() == "is tested";
             then {
                 println!("[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
-				show_flags(shebang);
-                match check_tests(&args.input, &syntax) {
+                match check_tests(&src, filename, &syntax) {
                     Ok(_) => {println!("[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
                     Err(e) => {return Err(e)}
                 }
             } else {
                 println!("[{}] {}", filename.bright_cyan().bold(), "Testing disabled".red())
             }
-        }
-    }
-
-	println!("{}", "All tests were checked!".green());
-    Ok(())
-}
-
-fn check_tests(workdir: &str, file: &File) -> Result<()> {
-    use Item::*;
-    for item in &file.items {
-        let attrs = match item {
-            Const(x) => &x.attrs,
-            Enum(x) => &x.attrs,
-            ExternCrate(x) => &x.attrs,
-            Fn(x) => &x.attrs,
-            ForeignMod(x) => &x.attrs,
-            Impl(x) => &x.attrs,
-            Macro(x) => &x.attrs,
-            Macro2(x) => &x.attrs,
-            Mod(x) => &x.attrs,
-            Static(x) => &x.attrs,
-            Struct(x) => &x.attrs,
-            Trait(x) => &x.attrs,
-            TraitAlias(x) => &x.attrs,
-            Type(x) => &x.attrs,
-            Union(x) => &x.attrs,
-            Use(x) => &x.attrs,
-            _ => {
-                todo!()
-            }
         };
     }
 
+    println!(
+        "\n[=============================]\n\n{}",
+        "All tests were checked!".green()
+    );
     Ok(())
+}
+
+fn check_tests(source: &str, filename: &str, file: &File) -> Result<()> {
+    check_lints(filename, file)
 }

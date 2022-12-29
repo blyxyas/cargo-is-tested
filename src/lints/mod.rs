@@ -2,30 +2,32 @@ use miette::Result;
 use syn::{Attribute, File, Item};
 use thiserror::Error;
 
+mod valid_item;
 mod emptiness;
 
 pub trait Pass {
-    fn check_file(file: &File) -> Result<()> {
+    fn check_file(filename: &str, file: &File) -> Result<()> {
         Ok(())
     }
-    fn check_attributes(attribute: &Vec<Attribute>) -> Result<()> {
+    fn check_attributes(filename: &str, attribute: &Vec<Attribute>) -> Result<()> {
         Ok(())
     }
-    fn check_attribute(attribute: &Attribute) -> Result<()> {
+    fn check_attribute(filename: &str, attribute: &Attribute) -> Result<()> {
         Ok(())
     }
-    fn check_items(item: &Vec<Item>) -> Result<()> {
+    fn check_items(filename: &str, item: &Vec<Item>) -> Result<()> {
         Ok(())
     }
-    fn check_item(item: &Item) -> Result<()> {
+    fn check_item(filename: &str, item: &Item) -> Result<()> {
         Ok(())
     }
 }
 
-pub fn check_lints(file: &File) -> Result<()> {
+pub fn check_lints(filename: &str, file: &File) -> Result<()> {
     for item in &file.items {
-        emptiness::Emptiness::check_item(&item)?;
-    }
+        emptiness::Emptiness::check_item(filename, &item)?;
+		valid_item::ItemValidness::check_item(filename, &item)?;
+	};
 
 	Ok(())
 }

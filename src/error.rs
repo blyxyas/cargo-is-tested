@@ -1,10 +1,11 @@
 use miette::{Diagnostic, NamedSource, SourceSpan};
 use thiserror::Error;
 
+#[macro_export]
 macro_rules! span {
-    ($raw_span: ident) => {
-        ($raw_span.line, $raw_span.column).into()
-    };
+	($span_start: expr, $span_end: expr) => {
+		($span_start.line * $span_start.column, ($span_end.column - $span_start.column) - ($span_start.line * $span_start.column)).into()
+	};
 }
 
 #[derive(Error, Debug, Diagnostic)]
@@ -37,10 +38,22 @@ pub enum ErrorKind {
     #[diagnostic(code(IO_ERROR))]
     IoError(#[from] std::io::Error),
 
-    #[error("Unknown flag: `{flag}`")]
-    UnknownFlag {
-        src: NamedSource,
-        flag: String,
-        span: SourceSpan,
-    },
+    // #[error("Unknown flag: `{flag}`")]
+    // UnknownFlag {
+    //     src: NamedSource,
+    //     flag: String,
+    //     span: SourceSpan,
+    // },
+
+	#[error("Unexpected token")]
+	#[diagnostic(
+		code(UNEXPECTED_TOKEN),
+		url(docsrs),
+		help("Try removing this token")		
+	)]
+	UnexpectedToken {
+		src: NamedSource,
+		span: SourceSpan
+	}
+
 }
