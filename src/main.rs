@@ -1,11 +1,14 @@
 use if_chain::if_chain;
-use syn::ItemFn;
-use std::{fs, fmt::format};
+use miette::Result;
+use std::fs;
 use std::io::Read;
-use syn::{self, token::Extern, Error, File, Item, Meta, MetaList, Lit, LitStr, NestedMeta};
+use syn::{self, File, Item, Meta, MetaList, Lit, NestedMeta};
 
 use clap::Parser;
 use colored::Colorize;
+
+mod lints;
+mod error;
 
 #[derive(Parser)]
 #[command(bin_name = "cargo", name = "cargo")]
@@ -52,7 +55,7 @@ fn main() {
     }
 }
 
-fn check_tests(workdir: &str, file: &File) -> Result<(), String> {
+fn check_tests(workdir: &str, file: &File) -> Result<()> {
     use Item::*;
     for item in &file.items {
         let attrs = match item {
@@ -72,41 +75,8 @@ fn check_tests(workdir: &str, file: &File) -> Result<(), String> {
             Type(x) => &x.attrs,
             Union(x) => &x.attrs,
             Use(x) => &x.attrs,
-            _ => {
-                return Err(format!("Couldn't parse the item: {:#?}", &item));
-			}
+            _ => {todo!()}
         };
-
-		for attribute in attrs {
-			if let Some(ident) = attribute.path.get_ident() {
-				if ident.to_string() == "is_tested" {
-					// Bingo!
-					// Check that the file exists.
-
-					if let Meta::List(MetaList { nested, .. }) = attribute.parse_meta().expect("Couldn't parse the arguments. This shouldn't have happened, please open an issue") {
-						if let Some(NestedMeta::Lit(Lit::Str(litstr))) = nested.first() {
-							let fileread = fs::read_to_string(format!("{}/{}", workdir, litstr.value())).expect(&format!("Couldn't read file: {}", litstr.value()));
-							if fileread.is_empty() {
-								return Err(format!("File {} is empty. Add some tests and comeback!", litstr.value()));
-							};
-
-							let ast = match syn::parse_file(&fileread) {
-								Ok(file) => file,
-								Err(e) => return Err(format!("Couldn't parse file: {}.\nParser said this:\n{}", litstr.value(), e))
-							};
-
-							for item in ast.items {
-								if let Fn(func) = item {
-									if func.block.stmts.is_empty() {
-										return Err(format!("Function `{}` is empty, try adding some tests!", func.sig.ident.to_string()))
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
     }
 
 	Ok(())
