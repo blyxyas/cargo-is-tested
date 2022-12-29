@@ -1,17 +1,26 @@
 use proc_macro::TokenStream;
-use syn::{parse_macro_input, AttributeArgs};
+use syn::{parse_macro_input, AttributeArgs, NestedMeta, Lit};
+use proc_macro_error::{proc_macro_error, emit_call_site_warning};
 
-use darling::FromMeta;
+const FORBIDDEN_PATHS: [&str; 4] = [
+	"todo",
+	"none",
+	"fixme",
+	""
+];
 
-#[derive(Debug, FromMeta)]
-struct MacroArgs(String);
-
+#[proc_macro_error]
 #[proc_macro_attribute]
 pub fn is_tested(args: TokenStream, input: TokenStream) -> TokenStream {
 	let attr_args = parse_macro_input!(args as AttributeArgs);
-	let _args = match MacroArgs::from_nested_meta(&attr_args[0]) {
-		Ok(_) => {}
-		Err(e) => { return TokenStream::from(e.write_errors()) }
-	};
+	if let NestedMeta::Lit(Lit::Str(litstr)) = &attr_args[0] {
+		let value = litstr.value();
+		if FORBIDDEN_PATHS.contains(&&value[..]) {
+			emit_call_site_warning!(
+				"You need to put the path for where the tests are.";
+				help = "try with: `#[is_tested(\"tests/myfunction.rs\")]`";
+			);
+		}
+	}
 	input
 }

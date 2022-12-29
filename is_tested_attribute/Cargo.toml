@@ -9,5 +9,5 @@ edition = "2021"
 proc-macro = true
 
 [dependencies]
-syn = "1.0.107"
-darling = "0.14.2"
+syn = { version = "1.0.107", features = ["full"]}
+proc-macro-error = "1.0.4"
