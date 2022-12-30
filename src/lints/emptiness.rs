@@ -10,7 +10,7 @@ use thiserror::Error;
 pub struct Emptiness {
     #[source_code]
     src: NamedSource,
-    #[label("Right here")]
+    #[label("right here")]
     span: SourceSpan,
 }
 
@@ -19,15 +19,17 @@ pub struct Emptiness {
 //
 
 impl Pass for Emptiness {
-    fn check_item(filename: &str, item: &Item) -> Result<()> {
-        if let Item::Fn(func) = item {
-            if func.block.stmts.is_empty() {
-                Err(Emptiness {
-                    src: NamedSource::new(filename, func.sig.to_token_stream().to_string()),
-                    span: span!(func.sig),
-                })?;
+    fn check_items(filename: &str, items: &Vec<Item>) -> Result<()> {
+        for item in items {
+            if let Item::Fn(func) = item {
+                if func.block.stmts.is_empty() {
+                    Err(Emptiness {
+                        src: NamedSource::new(filename, func.sig.to_token_stream().to_string()),
+                        span: span!(func.sig),
+                    })?;
+                }
             }
         }
-        Ok(())
+		Ok(())
     }
 }

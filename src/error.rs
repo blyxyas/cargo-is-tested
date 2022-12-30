@@ -35,7 +35,7 @@ pub enum ErrorKind {
     FileParseError {
         #[source_code]
         src: NamedSource,
-        #[label("This token")]
+        #[label("this token")]
         span: SourceSpan,
 		#[help]
         note: Option<String>,
@@ -61,4 +61,18 @@ pub enum ErrorKind {
         filename: String,
         // There's no span.
     },
+
+	#[error("This lint doesn't exist")]
+	#[diagnostic(
+		code(UNEXPECTED_LINT),
+		url(docsrs),
+	)]
+	UnknownLint {
+		#[source_code]
+		src: NamedSource,
+		#[label("this lint")]
+		span: SourceSpan,
+		#[help]
+		note: Option<String>
+	}
 }

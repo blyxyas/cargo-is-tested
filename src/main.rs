@@ -58,12 +58,13 @@ fn main() -> Result<()> {
             then {
                 println!("\t[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
 				
-				match check_flags(filename, shebang) {
-					Ok(()) => {}
-					Err(e) => {return Err(e)}
-				}
+				let flags = match check_flags(filename, shebang) {
+					Some(Ok(flags)) => flags,
+					Some(Err(e)) => {return Err(e)}
+					None => Vec::new()
+				};
 
-                match check_tests(filename, &syntax) {
+                match check_tests(&src, filename, &syntax, flags) {
                     Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
                     Err(e) => {return Err(e)}
                 }
@@ -80,6 +81,6 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn check_tests(filename: &str, file: &File) -> Result<()> {
-    check_lints(filename, file)
+fn check_tests(src: &str, filename: &str, file: &File, flags: Vec<String>) -> Result<()> {
+    check_lints(src, filename, file, flags)
 }

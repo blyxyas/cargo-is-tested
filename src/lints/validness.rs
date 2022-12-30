@@ -10,20 +10,21 @@ use thiserror::Error;
 pub struct ItemValidness {
     #[source_code]
     src: NamedSource,
-    #[label("This token")]
+    #[label("this token")]
     span: SourceSpan,
 }
 
 impl Pass for ItemValidness {
-    fn check_item(filename: &str, item: &Item) -> Result<()> {
-        if let Item::Verbatim(verbatim) = item {
-			dbg!(&verbatim.span().start().line);
-            if verbatim.span().start().line != 1 {
-                return Err(ItemValidness {
-                    src: NamedSource::new(filename, verbatim.to_string()),
-                    span: span!(verbatim),
+    fn check_items(filename: &str, items: &Vec<Item>) -> Result<()> {
+        for item in items {
+            if let Item::Verbatim(verbatim) = item {
+                if verbatim.span().start().line != 1 {
+                    return Err(ItemValidness {
+                        src: NamedSource::new(filename, verbatim.to_string()),
+                        span: span!(verbatim),
+                    }
+                    .into());
                 }
-                .into());
             }
         }
         Ok(())
