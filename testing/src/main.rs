@@ -1,4 +1,4 @@
-#!is-tested vagf
+#!is-tested strict
 mod other;
 
 use is_tested::is_tested;
