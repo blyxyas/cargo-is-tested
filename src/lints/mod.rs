@@ -1,8 +1,5 @@
-use miette::{NamedSource, Result};
+use miette::Result;
 use syn::{Attribute, File, Item};
-use thiserror::Error;
-
-use crate::error::ErrorKind;
 
 mod emptiness;
 mod validness;

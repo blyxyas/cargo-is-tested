@@ -37,7 +37,7 @@ fn main() -> Result<()> {
         let raw_filename = path.unwrap().file_name();
         let filename = raw_filename.to_str().unwrap();
 
-		println!("Checking [{}]", filename.bright_cyan().bold());
+        println!("Checking [{}]", filename.bright_cyan().bold());
 
         let src = match fs::read_to_string(format!("{}/src/{filename}", args.input)) {
             Ok(s) => s,
@@ -47,7 +47,9 @@ fn main() -> Result<()> {
         let syntax = match syn::parse_file(&src) {
             Ok(syn) => syn,
             Err(_) => {
-				return Err(ErrorKind::UnexpectedToken { filename: filename.to_owned() }
+                return Err(ErrorKind::UnexpectedToken {
+                    filename: filename.to_owned(),
+                }
                 .into())
             }
         };
@@ -57,12 +59,12 @@ fn main() -> Result<()> {
             if shebang.to_lowercase().contains("is-tested");
             then {
                 println!("\t[{}] {}", filename.bright_cyan().bold(), "Testing enabled".green());
-				
-				let flags = match check_flags(filename, shebang) {
-					Some(Ok(flags)) => flags,
-					Some(Err(e)) => {return Err(e)}
-					None => Vec::new()
-				};
+
+                let flags = match check_flags(filename, shebang) {
+                    Some(Ok(flags)) => flags,
+                    Some(Err(e)) => {return Err(e)}
+                    None => Vec::new()
+                };
 
                 match check_tests(&src, filename, &syntax, flags) {
                     Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},

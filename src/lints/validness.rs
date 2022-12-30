@@ -3,9 +3,10 @@ use crate::error::ErrorKind;
 use super::{super::span, Pass};
 use miette::Result;
 use miette::{Diagnostic, NamedSource, SourceSpan};
-use syn::{Item, spanned::Spanned};
+use syn::{spanned::Spanned, Item};
 use thiserror::Error;
 
+#[rustfmt::skip]
 #[derive(Debug, Error, Diagnostic)]
 #[error("Not a valid item")]
 #[diagnostic(
@@ -21,13 +22,13 @@ pub struct ItemValidness {
 
 impl Pass for ItemValidness {
     fn check_items(source: &str, filename: &str, items: &Vec<Item>) -> Result<()> {
-		for item in items {
+        for item in items {
             if let Item::Verbatim(verbatim) = item {
-				if verbatim.span().start().line != 1 {
-					return Err(ErrorKind::FileParseError {
+                if verbatim.span().start().line != 1 {
+                    return Err(ErrorKind::FileParseError {
                         src: NamedSource::new(filename, source.to_owned()),
                         span: span!(verbatim),
-						note: Some(verbatim.to_string())
+                        note: Some(verbatim.to_string()),
                     }
                     .into());
                 }

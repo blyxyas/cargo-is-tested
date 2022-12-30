@@ -29,20 +29,22 @@ pub enum ErrorKind {
     /// [`syn`]: https://docs.rs/syn
     #[error("Couldn't parse this token")]
     #[diagnostic(
-        code(FILE_PARSE_ERROR),
-        url(docsrs),
-    )]
+		code(FILE_PARSE_ERROR),
+		url(docsrs)
+	)]
     FileParseError {
         #[source_code]
         src: NamedSource,
         #[label("this token")]
         span: SourceSpan,
-		#[help]
+        #[help]
         note: Option<String>,
     },
 
     #[error(transparent)]
-    #[diagnostic(code(IO_ERROR))]
+    #[diagnostic(
+		code(IO_ERROR)
+	)]
     IoError(#[from] std::io::Error),
 
     // #[error("Unknown flag: `{flag}`")]
@@ -62,17 +64,17 @@ pub enum ErrorKind {
         // There's no span.
     },
 
-	#[error("This lint doesn't exist")]
-	#[diagnostic(
+    #[error("This lint doesn't exist")]
+    #[diagnostic(
 		code(UNEXPECTED_LINT),
-		url(docsrs),
+		url(docsrs)
 	)]
-	UnknownLint {
-		#[source_code]
-		src: NamedSource,
-		#[label("this lint")]
-		span: SourceSpan,
-		#[help]
-		note: Option<String>
-	}
+    UnknownLint {
+        #[source_code]
+        src: NamedSource,
+        #[label("this lint")]
+        span: SourceSpan,
+        #[help]
+        note: Option<String>,
+    },
 }

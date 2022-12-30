@@ -8,7 +8,10 @@ pub fn check_flags(filename: &str, shebang: &str) -> Option<Result<Vec<String>>>
     if let Some(position) = shebang.find("is-tested") {
         let flags = shebang[position + 9..]
             .split_whitespace()
-            .collect::<Vec<&str>>().iter().map(|&s| s.into()).collect::<Vec<String>>();
+            .collect::<Vec<&str>>()
+            .iter()
+            .map(|&s| s.into())
+            .collect::<Vec<String>>();
 
         for flag in &flags {
             if !LINT_NAMES.contains(&flag.as_str()) {
@@ -25,11 +28,10 @@ pub fn check_flags(filename: &str, shebang: &str) -> Option<Result<Vec<String>>>
                     note,
                 }
                 .into()));
-
             }
         }
-        return Some(Ok(flags))
+        return Some(Ok(flags));
     }
 
-	return None;
+    return None;
 }

@@ -2,9 +2,10 @@ use super::{super::span, Pass};
 use miette::Result;
 use miette::{Diagnostic, NamedSource, SourceSpan};
 use syn::__private::ToTokens;
-use syn::{Item, spanned::Spanned};
+use syn::{spanned::Spanned, Item};
 use thiserror::Error;
 
+#[rustfmt::skip]
 #[derive(Debug, Error, Diagnostic)]
 #[error("Empty items aren't recommended")]
 #[diagnostic(
@@ -27,13 +28,13 @@ impl Pass for Emptiness {
         for item in items {
             if let Item::Fn(func) = item {
                 if func.block.stmts.is_empty() {
-					Err(Emptiness {
+                    Err(Emptiness {
                         src: NamedSource::new(filename, func.sig.to_token_stream().to_string()),
                         span: span!(func.sig),
                     })?;
                 }
             }
         }
-		Ok(())
+        Ok(())
     }
 }
