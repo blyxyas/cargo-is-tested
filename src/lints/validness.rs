@@ -1,3 +1,13 @@
+//! \[**Error**\] Lints when items aren't valid. This lint shouldn't **ever** be triggered
+//! 
+//! ### Example
+//! 
+//! ```rust, ignore
+//! fn main() { unknown-token-here }
+//! ```
+//! 
+//! Will trigger this lint.
+
 use crate::error::ErrorKind;
 
 use super::{super::span, Pass};

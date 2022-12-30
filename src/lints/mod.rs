@@ -1,8 +1,8 @@
 use miette::Result;
 use syn::{Attribute, File, Item};
 
-mod emptiness;
-mod validness;
+pub mod emptiness;
+pub mod validness;
 
 pub const LINT_NAMES: [&str; 3] = ["emptiness", "validness", "strict"];
 

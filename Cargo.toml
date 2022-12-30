@@ -6,11 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-syn = {version = "1.0.107", features = ["full", "extra-traits", "parsing"]}
-clap = { version = "4.0.32", features = ["derive"]}
+syn = { version = "1.0.107", features = ["full", "extra-traits", "parsing"] }
+clap = { version = "4.0.32", features = ["derive"] }
 if_chain = "1.0.2"
 colored = "2.0.0"
-proc-macro-error = { version = "1.0.4" }
 miette = { version = "5.5.0", features = ["fancy"] }
 thiserror = "1.0.38"
 strsim = { version = "0.10.0", optional = true }

@@ -1,5 +1,6 @@
+#![feature(proc_macro_internals)]
 use if_chain::if_chain;
-use lints::check_lints;
+use cargo_is_tested::lints::check_lints;
 use miette::Result;
 use std::fs;
 use syn::{self, File};
@@ -7,13 +8,9 @@ use syn::{self, File};
 use clap::Parser;
 use colored::Colorize;
 
-mod error;
-mod flags;
-mod lints;
+use cargo_is_tested::error::ErrorKind;
 
-use error::ErrorKind;
-
-use crate::flags::check_flags;
+use cargo_is_tested::flags::check_flags;
 
 #[derive(Parser)]
 #[command(bin_name = "cargo", name = "cargo")]
@@ -25,6 +22,14 @@ enum Cargo {
 #[command(author, version, about)]
 struct IsTested {
     input: String,
+    #[arg(short, long, default_value = "")]
+	/// A list of all the lints applied.
+	/// Example:
+	/// 
+	/// cargo is-tested my_project --lints validness,emptiness
+	/// 
+	/// These lints will be applied with the lints specified in your tests after the shebang.
+    lints: Vec<String>,
 }
 
 fn main() -> Result<()> {

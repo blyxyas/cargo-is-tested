@@ -77,7 +77,6 @@ dependencies = [
  "colored",
  "if_chain",
  "miette",
- "proc-macro-error",
  "proc-macro2",
  "strsim",
  "syn",

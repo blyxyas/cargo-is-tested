@@ -1,3 +1,13 @@
+//! \[**Warn**\] Lints when items are empty.
+//!
+//! ### Example
+//!
+//! ```rust, ignore
+//! fn main() {}
+//! ```
+//!
+//! Will trigger this lint.
+
 use super::{super::span, Pass};
 use miette::Result;
 use miette::{Diagnostic, NamedSource, SourceSpan};
@@ -19,17 +29,14 @@ pub struct Emptiness {
     span: SourceSpan,
 }
 
-// 12345678
-// 1 * 8
-//
-
 impl Pass for Emptiness {
-    fn check_items(_: &str, filename: &str, items: &Vec<Item>) -> Result<()> {
+    fn check_items(source: &str, filename: &str, items: &Vec<Item>) -> Result<()> {
         for item in items {
             if let Item::Fn(func) = item {
                 if func.block.stmts.is_empty() {
+                    dbg!(func.block.span());
                     Err(Emptiness {
-                        src: NamedSource::new(filename, func.sig.to_token_stream().to_string()),
+                        src: NamedSource::new(filename, source.to_owned()),
                         span: span!(func.sig),
                     })?;
                 }

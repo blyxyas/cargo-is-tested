@@ -1,5 +1,4 @@
-use crate::error::ErrorKind;
-use cargo_is_tested::did_you_mean;
+use crate::{error::ErrorKind, did_you_mean};
 use miette::{NamedSource, Result};
 
 use super::lints::LINT_NAMES;

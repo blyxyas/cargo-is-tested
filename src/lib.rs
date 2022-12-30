@@ -1,3 +1,7 @@
+pub mod error;
+pub mod flags;
+pub mod lints;
+
 #[cfg(feature = "suggestions")]
 pub fn did_you_mean<'a, T, I>(field: &str, alternatives: I) -> Option<String>
 where
