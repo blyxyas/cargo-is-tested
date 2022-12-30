@@ -60,7 +60,7 @@ If the file exists, the program checks all lints against your test, assuring the
 
 ## Installation and usage
 
-##### ⚠️ Installation ins't currently possible because the project isn't published yet.
+##### ⚠️ Installation isn't currently possible because the project isn't published yet.
 
 To get started using `cargo-is-tested`, install the binary.
 
@@ -68,4 +68,49 @@ To get started using `cargo-is-tested`, install the binary.
 $ cargo install cargo-is-tested
 ```
 
-Now, document yourself in 
+Now [document yourself](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints) about all the lints you can apply to your tests.
+
+* *strict* (Activates all lints, default)
+* [*emptiness*](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints/emptiness)
+* [*validness*](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints/validness)
+
+More lints will be added with time.
+
+---
+
+Once you know the lints you want to apply import the attribute `is_tested`, then choose a struct, function or any item that you want to test, and add to that item the attribute `#[is_tested("<path to the test>.rs")]`
+
+The result should be something like:
+
+```rust
+#! is-tested strict
+
+use is_tested::is_tested;
+
+#[is_tested("tests/mystruct.rs")]
+struct MyStruct<'a> {
+	string: &'a str
+}
+```
+
+Don't worry, the attribute won't change anything in your code, it's just a marker for a later-parser to know that you're testing the item.
+
+---
+
+It's time to run the parser, it will read check that all tested items are tested, and with the correct code quality dicted using the lints.
+
+```rust
+// tests/mystruct.rs
+
+use mycrate::MyStruct;
+
+fn main() {
+	// [...]
+}
+```
+
+```bash
+$ cargo is-tested .
+```
+
+This will check that all tests are well written. You can use flags to customize your experience, for example, use `--structs` to check that all structs have tests associated, or use `--test` to, if all tests are confirmed, run `cargo test` automatically.
