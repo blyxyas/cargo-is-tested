@@ -3,9 +3,12 @@ use cargo_is_tested::lints::check_lints;
 use cargo_is_tested::maybe_warn;
 use if_chain::if_chain;
 use miette::{Result, Severity};
+use syn::spanned::Spanned;
+use syn::token::Struct;
+use std::fmt::Debug;
 use std::fs;
 use std::process::Command;
-use syn::{self, File};
+use syn::{self, File, parse_str, ItemStruct};
 
 use clap::Parser;
 use colored::Colorize;
@@ -34,10 +37,15 @@ struct IsTested {
     /// Use if you want to run `cargo test` inmediately afterwards if there aren't any errors.
     #[arg(long, default_value = "false")]
     test: bool,
+	#[arg(long, default_value = "false")]
+	deny_warnings: bool
 }
 
 fn main() -> Result<()> {
-    let Cargo::IsTested(args) = Cargo::parse();
+	let s = "struct Hi {hi: usize}";
+	let t: ItemStruct = parse_str(s).unwrap();
+
+	let Cargo::IsTested(args) = Cargo::parse();
     let paths = match fs::read_dir(format!("{}/src", args.input)) {
         Ok(p) => p,
         Err(e) => return Err(ErrorKind::IoError(e).into()),
@@ -78,7 +86,7 @@ fn main() -> Result<()> {
 
                 match check_tests(&src, filename, &syntax, flags) {
                     Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
-                    Err(e) => {maybe_warn!(e)}
+                    Err(e) => {maybe_warn!(e, args)}
                 }
 
             } else {

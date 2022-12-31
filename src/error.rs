@@ -15,6 +15,7 @@ macro_rules! span {
 }
 
 #[derive(Error, Debug, Diagnostic)]
+#[non_exhaustive]
 pub enum ErrorKind {
     /// A file parse error.
     /// This happens because:

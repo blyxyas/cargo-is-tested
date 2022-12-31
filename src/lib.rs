@@ -115,6 +115,8 @@
 //!
 //!This will check that all tests are well written. You can use flags to customize your experience, for example, use `--structs` to check that all structs have tests associated, or use `--test` to, if all tests are confirmed, run `cargo test` automatically.
 
+use std::ops::Range;
+
 pub mod error;
 pub mod flags;
 pub mod lints;
@@ -166,8 +168,8 @@ macro_rules! impl_warn {
 
 #[macro_export]
 macro_rules! maybe_warn {
-    ($e: expr) => {
-        if $e.severity() == Some(Severity::Warning) {
+    ($e: expr, $args: expr) => {
+        if $e.severity() == Some(Severity::Warning) && !$args.deny_warnings {
             println!("WARN: {:?}", $e);
         } else {
             return Err($e);
