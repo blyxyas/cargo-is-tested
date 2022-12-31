@@ -8,10 +8,11 @@
 //!
 //! Will trigger this lint.
 
+use crate::impl_warn;
+
 use super::{super::span, Pass};
 use miette::Result;
 use miette::{Diagnostic, NamedSource, SourceSpan};
-use syn::__private::ToTokens;
 use syn::{spanned::Spanned, Item};
 use thiserror::Error;
 
@@ -34,7 +35,6 @@ impl Pass for Emptiness {
         for item in items {
             if let Item::Fn(func) = item {
                 if func.block.stmts.is_empty() {
-                    dbg!(func.block.span());
                     Err(Emptiness {
                         src: NamedSource::new(filename, source.to_owned()),
                         span: span!(func.sig),
@@ -45,3 +45,5 @@ impl Pass for Emptiness {
         Ok(())
     }
 }
+
+impl_warn! { Emptiness }

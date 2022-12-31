@@ -78,7 +78,7 @@ More lints will be added with time.
 
 ---
 
-Once you know the lints you want to apply import the attribute `is_tested`, then choose a struct, function or any item that you want to test, and add to that item the attribute `#[is_tested("<path to the test>.rs")]`
+Once you know the lints you want to apply, import the attribute `is_tested`, then choose a struct, function or any item that you want to test, and add to that item the attribute `#[is_tested("<path to the test>.rs")]`
 
 The result should be something like:
 

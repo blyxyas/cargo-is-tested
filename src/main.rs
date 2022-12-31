@@ -1,15 +1,16 @@
 #![feature(proc_macro_internals)]
-use if_chain::if_chain;
 use cargo_is_tested::lints::check_lints;
-use miette::Result;
+use cargo_is_tested::maybe_warn;
+use if_chain::if_chain;
+use miette::{Result, Severity};
 use std::fs;
+use std::process::Command;
 use syn::{self, File};
 
 use clap::Parser;
 use colored::Colorize;
 
 use cargo_is_tested::error::ErrorKind;
-
 use cargo_is_tested::flags::check_flags;
 
 #[derive(Parser)]
@@ -22,14 +23,17 @@ enum Cargo {
 #[command(author, version, about)]
 struct IsTested {
     input: String,
+    /// A list of all the lints applied.
+    /// Example:
+    ///
+    /// cargo is-tested my_project --lints validness,emptiness
+    ///
+    /// These lints will be applied with the lints specified in your tests after the shebang.
     #[arg(short, long, default_value = "")]
-	/// A list of all the lints applied.
-	/// Example:
-	/// 
-	/// cargo is-tested my_project --lints validness,emptiness
-	/// 
-	/// These lints will be applied with the lints specified in your tests after the shebang.
     lints: Vec<String>,
+    /// Use if you want to run `cargo test` inmediately afterwards if there aren't any errors.
+    #[arg(long, default_value = "false")]
+    test: bool,
 }
 
 fn main() -> Result<()> {
@@ -38,6 +42,7 @@ fn main() -> Result<()> {
         Ok(p) => p,
         Err(e) => return Err(ErrorKind::IoError(e).into()),
     };
+    dbg!(&args.test);
     for path in paths {
         let raw_filename = path.unwrap().file_name();
         let filename = raw_filename.to_str().unwrap();
@@ -73,8 +78,9 @@ fn main() -> Result<()> {
 
                 match check_tests(&src, filename, &syntax, flags) {
                     Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
-                    Err(e) => {return Err(e)}
+                    Err(e) => {maybe_warn!(e)}
                 }
+
             } else {
                 println!("\t[{}] {}", filename.bright_cyan().bold(), "Testing disabled".red())
             }
@@ -85,6 +91,14 @@ fn main() -> Result<()> {
         "\n[=============================]\n\n{}",
         "All tests were checked!".green()
     );
+
+    if args.test {
+        match Command::new("cargo").arg("test").status() {
+            Ok(_) => return Ok(()),
+            Err(e) => return Err(ErrorKind::IoError(e).into()),
+        }
+    }
+
     Ok(())
 }
 
