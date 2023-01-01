@@ -3,6 +3,11 @@ name = "is_tested"
 version = "0.1.0"
 edition = "2021"
 description = "Helper attribute for `cargo-is-tested`, along with `is_not_tested`"
+license = "MIT"
+repository = "https://github.com/blyxyas/cargo-is-tested/tree/master/is_tested"
+readme = "README.md"
+keywords = ["proc-macro", "testing", "test", "marker", "helper"]
+categories = ["development-tools", "development-tools::testing", "rust-patterns"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
