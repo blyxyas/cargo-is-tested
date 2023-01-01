@@ -25,18 +25,23 @@ pub trait Pass {
     }
 }
 
-pub fn check_lints(source: &str, filename: &str, file: &File, lints: Vec<String>) -> Result<()> {
+pub fn check_lints(
+    source: &str,
+    filename: &str,
+    items: &Vec<Item>,
+    lints: Vec<String>,
+) -> Result<()> {
     if lints.contains(&"strict".to_owned()) {
-        emptiness::Emptiness::check_items(source, filename, &file.items)?;
-        validness::ItemValidness::check_items(source, filename, &file.items)?;
+        emptiness::Emptiness::check_items(source, filename, items)?;
+        validness::ItemValidness::check_items(source, filename, items)?;
     } else {
         for lint in &lints {
             match lint.as_str() {
                 "emptiness" => {
-                    emptiness::Emptiness::check_items(source, filename, &file.items)?;
+                    emptiness::Emptiness::check_items(source, filename, items)?;
                 }
                 "validness" => {
-                    validness::ItemValidness::check_items(source, filename, &file.items)?;
+                    validness::ItemValidness::check_items(source, filename, items)?;
                 }
                 _ => {}
             }

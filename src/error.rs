@@ -29,10 +29,7 @@ pub enum ErrorKind {
     ///
     /// [`syn`]: https://docs.rs/syn
     #[error("Couldn't parse this token")]
-    #[diagnostic(
-		code(FILE_PARSE_ERROR),
-		url(docsrs)
-	)]
+    #[diagnostic(code(FILE_PARSE_ERROR), url(docsrs))]
     FileParseError {
         #[source_code]
         src: NamedSource,
@@ -43,9 +40,7 @@ pub enum ErrorKind {
     },
 
     #[error(transparent)]
-    #[diagnostic(
-		code(IO_ERROR)
-	)]
+    #[diagnostic(code(IO_ERROR))]
     IoError(#[from] std::io::Error),
 
     // #[error("Unknown flag: `{flag}`")]
@@ -66,10 +61,7 @@ pub enum ErrorKind {
     },
 
     #[error("This lint doesn't exist")]
-    #[diagnostic(
-		code(UNEXPECTED_LINT),
-		url(docsrs)
-	)]
+    #[diagnostic(code(UNEXPECTED_LINT), url(docsrs))]
     UnknownLint {
         #[source_code]
         src: NamedSource,
@@ -77,5 +69,17 @@ pub enum ErrorKind {
         span: SourceSpan,
         #[help]
         note: Option<String>,
+    },
+
+    /// This error happens when you activate the `structs` lint, and you don't test a struct.
+    #[error("The {item_kind} `{item_name}` isn't tested")]
+    #[diagnostic(code(ITEM_NOT_TESTED), url(docsrs))]
+    ItemNotTested {
+        #[source_code]
+        src: NamedSource,
+        item_name: String,
+		item_kind: String,
+        #[label("this struct")]
+        span: SourceSpan,
     },
 }
