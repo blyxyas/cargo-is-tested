@@ -11,11 +11,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - uses:
+    - uses: "actions-rs/toolchain@v1"
       with:
         toolchain: stable
     - uses: actions-rs/cargo@v1
-        with:
+      with:
           command: install
           args: mdbook-admonish
     
