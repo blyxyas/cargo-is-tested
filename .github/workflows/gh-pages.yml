@@ -18,11 +18,11 @@ jobs:
       - run: cd book; cargo install mdbook-admonish; mdbook-admonish install .
       
       - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
+        uses: peaceiris/actions-mdbook@v1.2.0
         with:
           mdbook-version: 'latest'
 
-      - run: mdbook build
+        run: mdbook build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
