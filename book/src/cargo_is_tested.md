@@ -73,7 +73,7 @@ So, we can use a shebang at the start of a file to declare which lints we want (
 You'll write this in the first line of a file to enable testing, the binary will parse this later, and **will not cause an error.**
 
 Now, you can apply any lint you want, and each item will be subject to your linting.
-To skin an item from linting, you can use the `is_not_tested` attribute. It has its own chapter.
+To skip an item from linting, you can use the `is_not_tested` attribute. It has its own chapter.
 
 For example, I want to check that all my functions are checked, except my function `main`.
 
