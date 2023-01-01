@@ -168,7 +168,7 @@ fn main() -> Result<()> {
 }
 
 macro_rules! check_has_tests {
-	(($flags: expr; $item: ident; $filename: expr; $src: expr; $it: expr;) $($keyword: expr, $ty: pat_param, $item_kind: literal, $it_ident: expr)*) => {
+	(($flags: expr; $item: ident; $filename: expr; $src: ident; $it: expr;) $($keyword: expr, $ty: pat_param, $item_kind: literal, $it_ident: expr)*) => {
 		$(
 		if $flags.contains(&$keyword.to_owned()) {
             if let $ty = $item {
@@ -185,7 +185,7 @@ macro_rules! check_has_tests {
                         src: NamedSource::new($filename, $src.to_owned()),
                         item_name: $it_ident.to_string(),
                         item_kind: $item_kind.to_owned(),
-                        span: span!($it),
+                        span: span!($it, $src),
                     }
                     .into());
                 };

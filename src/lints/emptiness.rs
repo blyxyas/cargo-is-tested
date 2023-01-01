@@ -37,7 +37,7 @@ impl Pass for Emptiness {
                 if func.block.stmts.is_empty() {
                     Err(Emptiness {
                         src: NamedSource::new(filename, source.to_owned()),
-                        span: span!(func.sig),
+                        span: span!(func.sig, source),
                     })?;
                 }
             }

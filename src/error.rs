@@ -1,16 +1,28 @@
 use miette::{Diagnostic, NamedSource, SourceSpan};
+use proc_macro2::LineColumn;
 use thiserror::Error;
+
+pub fn get_span(src: &str, start: &LineColumn, end: &LineColumn) -> SourceSpan {
+    let mut remaining_lines = end.line - 1;
+    let mut bytepos_start: usize = 0;
+    let mut bytepos_end: usize = 0;
+	for (i, c) in src.chars().enumerate() {
+        if c == '\n' {
+			remaining_lines -= 1;
+			if end.line - remaining_lines == start.line {
+				bytepos_start = i + start.column + 1;
+			} else {
+				bytepos_end = i + end.column;
+			}
+        }
+    }
+    return (bytepos_start..bytepos_end).into();
+}
 
 #[macro_export]
 macro_rules! span {
-    ($item: expr) => {{
-        let span_start = $item.span().start();
-        let span_end = $item.span().end();
-        (
-            span_start.line * span_start.column,
-            (span_end.column - span_start.column) - (span_start.line * span_start.column),
-        )
-            .into()
+    ($item: expr, $source: ident) => {{
+        $crate::error::get_span($source, &$item.span().start(), &$item.span().end())
     }};
 }
 
@@ -78,8 +90,8 @@ pub enum ErrorKind {
         #[source_code]
         src: NamedSource,
         item_name: String,
-		item_kind: String,
-        #[label("this struct")]
+        item_kind: String,
+        #[label("this {item_kind}")]
         span: SourceSpan,
     },
 }

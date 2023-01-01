@@ -37,7 +37,7 @@ impl Pass for ItemValidness {
                 if verbatim.span().start().line != 1 {
                     return Err(ErrorKind::FileParseError {
                         src: NamedSource::new(filename, source.to_owned()),
-                        span: span!(verbatim),
+                        span: span!(verbatim, source),
                         note: Some(verbatim.to_string()),
                     }
                     .into());
