@@ -1,6 +1,6 @@
 # `is_tested`
 
-This crate provides the attribute `is_tested`, this attribute won't convert your input to anything, it's just a market for the [`cargo-is-tested`].
+This crate provides the attribute `is_tested`, this attribute won't convert your input to anything, it's just a marker for the [`cargo-is-tested`] binary.
 
 The crate is supposed to be used with the [`cargo-is-tested`]. **It is useless without the binary**
 
