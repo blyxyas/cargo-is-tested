@@ -16,8 +16,6 @@
 
 Also, is uses *✨ pretty colors ✨* for error reporting.
 
-##### ⚠️ This project is in a WIP state. Don't expect some things to work.
-
 # Example
 
 To check if all functions are tested in the current directory.
@@ -59,8 +57,6 @@ If the file exists, the program checks all lints against your test, assuring the
 </div>
 
 ## Installation and usage
-
-##### ⚠️ Installation isn't currently possible because the project isn't published yet.
 
 To get started using `cargo-is-tested`, install the binary.
 

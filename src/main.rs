@@ -76,7 +76,6 @@ macro_rules! add_lint_by_keyword {
 }
 
 fn main() -> Result<()> {
-    println!("{} {}", " ".on_bright_red(), "This is a WIP project, some functions (like error reporting) aren't fully functioning. The spans for the errors are wrong.".underline().bold().yellow());
     let Cargo::IsTested(mut args) = Cargo::parse();
     let paths = match fs::read_dir(format!("{}/src", args.input)) {
         Ok(p) => p,
