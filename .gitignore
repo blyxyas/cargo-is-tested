@@ -1,6 +1,6 @@
 **/*/target
-is_tested/Cargo.toml
-is_not_tested/Cargo.toml
+is_tested/Cargo.lock
+is_not_tested/Cargo.lock
 book/book
 
 # Added by cargo
