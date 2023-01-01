@@ -2,6 +2,7 @@
 name = "is_tested"
 version = "0.1.0"
 edition = "2021"
+description = "Helper attribute for `cargo-is-tested`, along with `is_not_tested`"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

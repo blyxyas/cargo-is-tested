@@ -3,12 +3,9 @@ use cargo_is_tested::lints::check_lints;
 use cargo_is_tested::maybe_warn;
 use if_chain::if_chain;
 use miette::{Result, Severity};
-use syn::spanned::Spanned;
-use syn::token::Struct;
-use std::fmt::Debug;
 use std::fs;
 use std::process::Command;
-use syn::{self, File, parse_str, ItemStruct};
+use syn::File;
 
 use clap::Parser;
 use colored::Colorize;
@@ -38,13 +35,19 @@ struct IsTested {
     #[arg(long, default_value = "false")]
     test: bool,
 	#[arg(long, default_value = "false")]
-	deny_warnings: bool
+	deny_warnings: bool,
+	/// Check that all structs have testing associated. You can use the `#[is_not_tested]` attribute to confirm that not testing is a concious choice.
+	#[arg(long, default_value = "false")]
+	structs: bool,
+	/// Checks that all functions have testing associated. You can use the `#[is_not_tested]` attribute to confirm that not testing is a concious choice.
+	#[arg(long, default_value = "false")]
+	functions: bool,
+	
 }
 
 fn main() -> Result<()> {
-	let s = "struct Hi {hi: usize}";
-	let t: ItemStruct = parse_str(s).unwrap();
 
+	println!("{} {}", " ".on_bright_red(), "This is a WIP project, some functions (like error reporting) aren't fully functioning. The spans for the errors are wrong.".underline().bold().yellow());
 	let Cargo::IsTested(args) = Cargo::parse();
     let paths = match fs::read_dir(format!("{}/src", args.input)) {
         Ok(p) => p,

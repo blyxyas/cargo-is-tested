@@ -19,7 +19,7 @@ default = ["suggestions"]
 suggestions = ["dep:strsim"]
 
 [workspace]
-members = ["is_tested", "testing"]
+members = ["is_tested", "is_not_tested", "testing"]
 
 [dependencies.proc-macro2]
 features = ["span-locations"]
