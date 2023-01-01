@@ -8,6 +8,7 @@ use darling::FromMeta;
 #[derive(Debug, FromMeta)]
 struct MacroArgs {
 	#[darling(default)]
+	#[allow(dead_code)]
 	reason: Option<String>
 }
 
