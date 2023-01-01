@@ -1,6 +1,6 @@
 [package]
 name = "is_tested"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Helper attribute for `cargo-is-tested`, along with `is_not_tested`"
 license = "MIT"
