@@ -1,9 +1,5 @@
 # Capítulo 1: Introducción
 
-```admonish info
-La traducción no está completa.
-```
-
 `is_tested` en un ecosistema de *crates* enfocado en hacer tus tests más fáciles de seguir, y asegurar cierta calidad.
 
 El ecosystema está formado por estas 3 *crates*:
