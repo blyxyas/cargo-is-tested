@@ -15,7 +15,7 @@
 </div>
 <br>
 
-`cargo-is-tested` is a way to check which of your items are tested in which aren't, very configurable and with a scripting-friendly API ready to use with your Git hooks.
+`cargo-is-tested` is a way to check which of your items are tested and which aren't, very configurable and with a scripting-friendly API ready to use with your Git hooks.
 
 Also, is uses *✨ pretty colors ✨* for error reporting.
 
@@ -42,7 +42,7 @@ is_tested = "*" # Check crates.io for the current version of the crate.
 ```rust
 // src/main.rs
 
-#! is-tested emptiness
+#! is-tested functions
 // Yes, it uses shebangs to enable testing and flags!
 
 use is_tested::is_tested;
@@ -55,7 +55,7 @@ fn my_function() {
 
 Then, it will check if `test/myfunction_testing_path.rs` exists, if it doesn't, it will output an error.
 
-If the file exists, the program checks all lints against your test, assuring the best quality possible.
+If the file exists, the program checks all lints against your test, assuring the best quality possible. For example, the lint `emptiness` will check that your functions aren't empty.
 
 <div align="center">
 <img src="./assets/output-screenshot.png" height="300" width="auto" />
@@ -69,11 +69,7 @@ To get started using `cargo-is-tested`, install the binary.
 $ cargo install cargo-is-tested
 ```
 
-Now [document yourself](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints) about all the lints you can apply to your tests.
-
-* *strict* (Activates all lints, default)
-* [*emptiness*](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints/emptiness)
-* [*validness*](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints/validness)
+Now [document yourself](https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints) about all the lints you can apply to your tests. You can also use `strict` to activate them all (currently, recommendable)
 
 More lints will be added with time.
 
