@@ -110,3 +110,14 @@ $ cargo is-tested .
 ```
 
 This will check that all tests are well written. You can use flags to customize your experience, for example, use `--structs` to check that all structs have tests associated, or use `--test` to, if all tests are confirmed, run `cargo test` automatically.
+
+---
+
+### Stargazers
+
+[![Stargazers repo roster for @blyxyas/cargo-is-tested](https://reporoster.com/stars/blyxyas/cargo-is-tested)](https://github.com/blyxyas/cargo-is-tested/stargazers)
+
+### License
+
+`cargo-is-tested` uses the **MIT License**, 2023.
+You can check the [LICENSE](https://github.com/blyxyas/cargo-is-tested/blob/master/LICENSE) for more information about licensing.
