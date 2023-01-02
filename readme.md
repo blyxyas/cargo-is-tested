@@ -15,6 +15,10 @@
 </div>
 <br>
 
+[🇪🇸] [El libro](https://blyxyas.github.io/cargo-is-tested) contiene instrucciones e información detallada en Español.
+
+---
+
 `cargo-is-tested` is a way to check which of your items are tested and which aren't, very configurable and with a scripting-friendly API ready to use with your Git hooks.
 
 Also, is uses *✨ pretty colors ✨* for error reporting.
