@@ -1,6 +1,6 @@
 # The Attribute
 
-The `is_tested` attribute is used to mark an attribute with a test, it's an essential part of the ecosystem, even without changing the output.
+The `is_tested` attribute is used to mark an item with a test, it's an essential part of the ecosystem, even without changing the item.
 
 ```admonish note
 **This attribute will not change your item.** It's just a marker.
