@@ -1,7 +1,6 @@
 <script>
 	const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
 
-	alert(window.location.origin);
 	if (userLocale.includes("es")) {
 		window.location.href = window.location.origin + "/cargo-is-tested/es/chapter_1.html"
 	} else {
