@@ -2,6 +2,19 @@
 name = "cargo-is-tested"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "Ensure that your items are checked with high-quality testing!"
+repository = "https://github.com/blyxyas/cargo-is-tested"
+documentation = "https://blyxyas.github.io/cargo-is-tested"
+readme = "readme.md"
+keywords = ["testing", "test", "binary", "cargo-subcommand", "cargo"]
+categories = [
+	"command-line-utilities",
+	"development-tools",
+	"development-tools::testing",
+]
+
+include = ["src", "Cargo.toml", "Cargo.lock", "readme.md"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

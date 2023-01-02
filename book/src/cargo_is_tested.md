@@ -117,10 +117,6 @@ For example, the lint `emptiness` will check that your tests don't contain empty
 
 ## Error reporting
 
-```admonish warning
-Currently **spans are wrong**, the code that errors point to is wrong. This will be fixed in a future update, and that is pretty much the only reason that the project is still in a WIP state.
-```
-
 Using [miette]'s error reporting capabilities, we can send beautiful errors, so that you know in exactly which parts of your file you must resign as a programmer.
 
 For example, if you create a function `main` that is empty, it will give you a warning, a **beautiful one**.

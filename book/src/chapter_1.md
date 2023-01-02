@@ -1,9 +1,5 @@
 # Chapter 1: Introduction
 
-```admonish wip
-This is a **Work-in-progress** book, not everything is documented.
-```
-
 `is_tested` is a ecosystem of crates aimed at making your testing easier to follow and check certain quality.
 
 The ecosystem is formed by these 3 crates:
