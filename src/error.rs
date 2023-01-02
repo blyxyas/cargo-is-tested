@@ -18,7 +18,6 @@ pub fn get_span(src: &str, start: &LineColumn, end: &LineColumn) -> SourceSpan {
         }
     }
 
-	dbg!(&bytepos_start, &bytepos_end);
     return (bytepos_start, bytepos_end - bytepos_start).into();
 }
 
