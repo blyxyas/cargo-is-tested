@@ -9,15 +9,17 @@ pub fn get_span(src: &str, start: &LineColumn, end: &LineColumn) -> SourceSpan {
 	for (i, c) in src.chars().enumerate() {
         if c == '\n' {
 			if end.line - remaining_lines == start.line {
-				bytepos_start = i + start.column + 1;
+				bytepos_end = i + start.column;
 				break;
 			} else {
-				bytepos_end = i + end.column;
+				bytepos_start = i + 1;
 			}
 			remaining_lines -= 1;
         }
     }
-    return (bytepos_start..bytepos_end).into();
+
+	dbg!(&bytepos_start, &bytepos_end);
+    return (bytepos_start, bytepos_end - bytepos_start).into();
 }
 
 #[macro_export]
