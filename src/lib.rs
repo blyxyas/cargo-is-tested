@@ -34,7 +34,7 @@
 //!# [...]
 //!
 //![dependencies]
-//!is_tested = "*" # Check crates.io for the current version of the crate.
+//!is_tested = "0.1.1" # Check crates.io for the current version of the crate.
 //!
 //!# [...]
 //!```
