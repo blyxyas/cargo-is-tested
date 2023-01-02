@@ -12,5 +12,5 @@
   - [Capítulo 1: Introducción](./es/chapter_1.md)
   - [El Ejecutable](./es/cargo_is_tested.md)
   - [El Atributo](./es/is_tested.md)
-  - [Ehe (Otro) Atributo](./es/is_not_tested.md)
+  - [El (Otro) Atributo](./es/is_not_tested.md)
   - [La Lista de Lints](./es/lint_list.md)
