@@ -6,10 +6,6 @@
 
 ### Using crates.io
 
-```admonish error
-This method won't work, as **this crate isn't published yet**. Read the [Manual installation](#manual-installation) section instead.
-```
-
 You can install the binary using:
 
 ```bash
