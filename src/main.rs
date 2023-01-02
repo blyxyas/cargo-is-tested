@@ -6,7 +6,7 @@ use miette::{NamedSource, Result, Severity};
 use std::fs;
 use std::process::Command;
 use syn::spanned::Spanned;
-use syn::{File, ItemStruct};
+use syn::File;
 
 use clap::Parser;
 use colored::Colorize;

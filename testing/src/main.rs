@@ -7,4 +7,5 @@ use is_tested::is_tested;
 fn main() {
 }
 
+#[rustfmt::skip]
 fn x() {}

@@ -9,6 +9,9 @@
 	<a href="https://docs.rs/cargo-is-tested">
 		<img src="https://img.shields.io/badge/Docs.rs--66c2a5?style=for-the-badge&logo=docs.rs">
 	</a>
+	<a href="https://blyxyas.github.io/cargo-is-tested">
+	<img src="https://img.shields.io/badge/Book--B597FC?style=for-the-badge&logo=mdbook">
+	</a>
 </div>
 <br>
 
@@ -16,7 +19,9 @@
 
 Also, is uses *✨ pretty colors ✨* for error reporting.
 
-# Example
+**You can also [read the book](https://blyxyas.github.io/cargo-is-tested) for a more user-friendly guide.**
+
+## Example
 
 To check if all functions are tested in the current directory.
 
