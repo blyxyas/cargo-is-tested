@@ -1,4 +1,4 @@
-# The Attribute
+# El Atributo
 
 El atributo `is_tested` es usado para marcar un item con un test, es una parte esencial del ecosistema, incluso sin cambiar el item.
 
