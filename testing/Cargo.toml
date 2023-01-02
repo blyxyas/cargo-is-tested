@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 is_tested = { path = "../is_tested" }
+is_not_tested = { path = "../is_not_tested" }

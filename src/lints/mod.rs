@@ -33,7 +33,7 @@ pub fn check_lints(
     lints: Vec<String>,
 ) -> Result<()> {
     if lints.contains(&"strict".to_owned()) {
-        emptiness::Emptiness::check_items(source, filename, items)?;
+		emptiness::Emptiness::check_items(source, filename, items)?;
         validness::ItemValidness::check_items(source, filename, items)?;
     } else {
         for lint in &lints {

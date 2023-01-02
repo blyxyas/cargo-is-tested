@@ -3,6 +3,7 @@ use cargo_is_tested::lints::check_lints;
 use cargo_is_tested::{maybe_warn, span};
 use if_chain::if_chain;
 use miette::{NamedSource, Result, Severity};
+use std::collections::HashSet;
 use std::fs;
 use std::process::Command;
 use syn::spanned::Spanned;
@@ -69,6 +70,9 @@ struct IsTested {
 macro_rules! add_lint_by_keyword {
 	($lint_list: expr => $($flag: expr, $keyword: expr)+) => {
 		$(
+		if $lint_list.contains(&$keyword.to_owned()) {
+			// Will not do anything
+		}
 		if $flag {
 			$lint_list.push($keyword.to_owned());
 		})*
@@ -102,6 +106,10 @@ fn main() -> Result<()> {
             println!("\t[{}]", lint.magenta())
         }
     };
+
+	// Remove duplicated elements in flags / lints:
+	let set: HashSet<_> = args.lints.drain(..).collect(); // dedup
+	args.lints.extend(set.into_iter());
 
     for path in paths {
         let raw_filename = path.unwrap().file_name();
@@ -137,8 +145,6 @@ fn main() -> Result<()> {
                 };
 
 				flags.append(&mut args.lints);
-
-
 
                 match check_tests(&src, filename, &syntax, flags) {
                     Ok(_) => {println!("\t[{}] {}", filename.bright_cyan().bold(), "Tests checked!".green())},
@@ -195,7 +201,6 @@ macro_rules! check_has_tests {
 
 fn check_tests(src: &str, filename: &str, file: &File, flags: Vec<String>) -> Result<()> {
     use syn::Item;
-	dbg!(&flags);
 	for item in &file.items {
         check_has_tests! {
             (flags; item; filename; src; it;)

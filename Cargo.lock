@@ -555,6 +555,7 @@ dependencies = [
 name = "testing"
 version = "0.1.0"
 dependencies = [
+ "is_not_tested",
  "is_tested",
 ]
 

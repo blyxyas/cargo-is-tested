@@ -8,12 +8,13 @@ pub fn get_span(src: &str, start: &LineColumn, end: &LineColumn) -> SourceSpan {
     let mut bytepos_end: usize = 0;
 	for (i, c) in src.chars().enumerate() {
         if c == '\n' {
-			remaining_lines -= 1;
 			if end.line - remaining_lines == start.line {
 				bytepos_start = i + start.column + 1;
+				break;
 			} else {
 				bytepos_end = i + end.column;
 			}
+			remaining_lines -= 1;
         }
     }
     return (bytepos_start..bytepos_end).into();

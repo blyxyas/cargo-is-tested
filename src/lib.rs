@@ -171,7 +171,7 @@ macro_rules! impl_warn {
 macro_rules! maybe_warn {
     ($e: expr, $args: expr) => {
         if $e.severity() == Some(Severity::Warning) && !$args.deny_warnings {
-            println!("WARN: {:?}", $e);
+			println!("WARN: {:?}", $e);
         } else {
             return Err($e);
         }
