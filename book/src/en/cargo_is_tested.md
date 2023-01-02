@@ -119,6 +119,6 @@ For example, if you create a function `main` that is empty, it will give you a w
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/blyxyas/cargo-is-tested/master/assets/output-screenshot.png" height="400" width="auto"/>
-</div
+</div>
 
 [miette]: https://github.com/zkat/miette

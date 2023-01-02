@@ -9,8 +9,8 @@ La traducción no está completa.
 El ecosystema está formado por estas 3 *crates*:
 
 * **[`cargo-is-tested`](cargo_is_tested.md):** El ejecutable
-* **[`is_tested`](is_tested.md):** El attributo
-* **[`is_not_tested`](is_not_tested.md):** El otro attribute (*Opcional*)
+* **[`is_tested`](is_tested.md):** El atributo
+* **[`is_not_tested`](is_not_tested.md):** El otro atributo (*Opcional*)
 
 Vamos a echarle un vistazo a cada una de estas *crates*, explicar su propósito, cómo usarlas, la instalación y todo lo relacionado a ellas.
 
