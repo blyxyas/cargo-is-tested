@@ -36,3 +36,5 @@ members = ["is_tested", "is_not_tested", "testing"]
 
 [dependencies.proc-macro2]
 features = ["span-locations"]
+version = "1.0.46" # Syn's version of proc-macro2
+
