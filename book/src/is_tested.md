@@ -3,7 +3,7 @@
 The `is_tested` attribute is used to mark an attribute with a test, it's an essential part of the ecosystem, even without changing the output.
 
 ```admonish note
-**This attribute will not change your item.**, it's just a marker.
+**This attribute will not change your item.** It's just a marker.
 ```
 
 ## 📦 Installation
@@ -37,4 +37,4 @@ Some items aren't included in the ecosystem because testing them isn't useful (l
 
 ---
 
-Now continue reading the main chapter, *The Binary*.
+Now continue reading the main chapter, [*The Binary*](cargo_is_tested.md).
