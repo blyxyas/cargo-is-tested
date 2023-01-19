@@ -2,7 +2,7 @@
 
 `is_tested` en un ecosistema de *crates* enfocado en hacer tus tests más fáciles de seguir, y asegurar cierta calidad.
 
-El ecosystema está formado por estas 3 *crates*:
+El ecosistema está formado por estas 3 *crates*:
 
 * **[`cargo-is-tested`](cargo_is_tested.md):** El ejecutable
 * **[`is_tested`](is_tested.md):** El atributo
