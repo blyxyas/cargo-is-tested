@@ -1,0 +1,8 @@
+**/*/target
+is_tested/Cargo.lock
+is_not_tested/Cargo.lock
+book/book
+testing
+# Added by cargo
+
+/target

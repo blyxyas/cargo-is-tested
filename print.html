@@ -1,0 +1,509 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>The Is-Tested Book</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./mdbook-admonish.css">
+        <link rel="stylesheet" href="././mdbook-admonish.css">
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Language Selection</a></li><li class="chapter-item expanded "><a href="en/index.html"><strong aria-hidden="true">2.</strong> 🇬🇧</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="en/chapter_1.html"><strong aria-hidden="true">2.1.</strong> Chapter 1: Introduction</a></li><li class="chapter-item expanded "><a href="en/cargo_is_tested.html"><strong aria-hidden="true">2.2.</strong> The Binary</a></li><li class="chapter-item expanded "><a href="en/is_tested.html"><strong aria-hidden="true">2.3.</strong> The Attribute</a></li><li class="chapter-item expanded "><a href="en/is_not_tested.html"><strong aria-hidden="true">2.4.</strong> The (Other) Attribute</a></li><li class="chapter-item expanded "><a href="en/lint_list.html"><strong aria-hidden="true">2.5.</strong> The Lint List</a></li></ol></li><li class="chapter-item expanded "><a href="es/index.html"><strong aria-hidden="true">3.</strong> 🇪🇸</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="es/chapter_1.html"><strong aria-hidden="true">3.1.</strong> Capítulo 1: Introducción</a></li><li class="chapter-item expanded "><a href="es/cargo_is_tested.html"><strong aria-hidden="true">3.2.</strong> El Ejecutable</a></li><li class="chapter-item expanded "><a href="es/is_tested.html"><strong aria-hidden="true">3.3.</strong> El Atributo</a></li><li class="chapter-item expanded "><a href="es/is_not_tested.html"><strong aria-hidden="true">3.4.</strong> El (Otro) Atributo</a></li><li class="chapter-item expanded "><a href="es/lint_list.html"><strong aria-hidden="true">3.5.</strong> La Lista de Lints</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Is-Tested Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <script>
+	const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
+
+	if (userLocale.includes("es")) {
+		window.location.href = window.location.origin + "/cargo-is-tested/es/chapter_1.html"
+	} else {
+		window.location.href = window.location.origin + "/cargo-is-tested/en/chapter_1.html"
+	}
+</script>
+<div style="break-before: page; page-break-before: always;"></div><script>
+	window.location.href = window.location.origin + "/cargo-is-tested/en/chapter_1.html"
+</script><div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-1-introduction"><a class="header" href="#chapter-1-introduction">Chapter 1: Introduction</a></h1>
+<p><code>is_tested</code> is a ecosystem of crates aimed at making your testing easier to follow and check certain quality.</p>
+<p>The ecosystem is formed by these 3 crates:</p>
+<ul>
+<li><strong><a href="https://github.com/blyxyas/cargo-is-tested"><code>cargo-is-tested</code></a>:</strong> The binary</li>
+<li><strong><a href="https://github.com/blyxyas/cargo-is-tested/tree/master/is_tested"><code>is_tested</code></a>:</strong> The attribute</li>
+<li><strong><a href="https://github.com/blyxyas/cargo-is-tested/tree/master/is_not_tested"><code>is_not_tested</code></a></strong>: Another attribute (<em>Optional</em>)</li>
+</ul>
+<p>We'll take a look at each one of these crates, explain the purpose, the usage, the installation, and everything related to them.</p>
+<p>Starting with the binary and the most complex part of the project, <code>cargo-is-tested</code>. In the next page.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-binary"><a class="header" href="#the-binary">The Binary</a></h1>
+<p><code>cargo-is-tested</code> is used to check your tests, ensure their quality, their abundance and their importance.</p>
+<h2 id="-installation"><a class="header" href="#-installation">📦 Installation</a></h2>
+<h3 id="using-cratesio"><a class="header" href="#using-cratesio">Using crates.io</a></h3>
+<p>You can install the binary using:</p>
+<pre><code class="language-bash">$	cargo install cargo-is-tested
+</code></pre>
+<h3 id="manual-installation"><a class="header" href="#manual-installation">Manual installation</a></h3>
+<p>To install the tool, you're going to need the following.</p>
+<ul>
+<li><a href="https://www.rust-lang.org/tools/install">Rust</a></li>
+<li>Cargo <sub><span style="color: gray;">(Comes with Rust)</span></sub></li>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a></li>
+</ul>
+<h4 id="cloning-the-repo"><a class="header" href="#cloning-the-repo">Cloning the repo</a></h4>
+<p>Clone the github repository:</p>
+<pre><code>$	git clone https://github.com/blyxyas/cargo-is-tested
+</code></pre>
+<h4 id="install-the-project"><a class="header" href="#install-the-project">Install the project</a></h4>
+<pre><code>$	cd cargo-is-tested;
+		cargo install --path .
+</code></pre>
+<hr />
+<p>Now, <strong>✨ It's ready to use! ✨</strong></p>
+<p>You can use at any point the following command to check that all your tests are there, with the dicted quality control.</p>
+<pre><code class="language-bash">$	cargo is-tested &lt;my project path&gt;
+</code></pre>
+<h2 id="-usage"><a class="header" href="#-usage">❓ Usage</a></h2>
+<p>Using the ecosystem is simple, but requires learning what to do.</p>
+<p>You'll need to also know how to use <code>is_tested</code> (attribute), please, read <a href="en/is_tested.html">that chapter</a> before continuing.</p>
+<hr />
+<p><em>Okay!</em> I'll assume that you already know how to use the <code>is_tested</code> attribute, because you read the <code>is_tested</code> chapter.</p>
+<hr />
+<p>The most innovative concept in this binary is the use of <em>shebangs</em> (<code>#!</code>). Yes, it turns out that Rust accepts shebangs as a valid token, even with not much functionality.</p>
+<p>So, we can use a shebang at the start of a file to declare which lints we want (<strong>also possible with the CLI</strong>).</p>
+<pre><code>#! is-tested
+</code></pre>
+<p>You'll write this in the first line of a file to enable testing, the binary will parse this later, and <strong>will not cause an error.</strong></p>
+<p>Now, you can apply any lint you want, and each item will be subject to your linting.
+To skip an item from linting, you can use the <code>is_not_tested</code> attribute. <a href="en/is_not_tested.html">It has its own chapter</a>.</p>
+<div id="admonition-example" class="admonition example">
+<div class="admonition-title">
+<p>Example</p>
+<p><a class="admonition-anchor-link" href="en/cargo_is_tested.html#admonition-example"></a></p>
+</div>
+<div>
+<p>I want to check that all my functions are checked, except my function <code>main</code>.</p>
+</div>
+</div>
+<pre><code class="language-rust  ignore">#! is-tested functions
+
+use is_tested::is_tested;
+use is_not_tested::is_not_tested;
+
+#[is_not_tested(reason = &quot;It's the main function, duuuh&quot;)] // Reasons are optional!
+fn main() {
+	// [...]
+}
+
+#[is_tested(&quot;tests/a_function.rs&quot;)]
+fn a_function() {
+	// [...]
+}
+
+// No testing here, Oh no!
+fn another_function() {
+	// [...]
+}
+</code></pre>
+<p>The code above will cause an error, a <strong>🌌 pretty error 🌟</strong>, to be specific, because you specified (with that <code>functions</code> lint) that all functions must be tested.</p>
+<p>There are lints for a lot of other items (check <code>cargo is-tested --help</code>), like structs, traits, macros...</p>
+<hr />
+<h3 id="in-test-lints"><a class="header" href="#in-test-lints">In-test lints</a></h3>
+<p>Some lints are applied to ensure that an item type is tested, others are applied to ensure that your tests have an amount of quality control.</p>
+<p>For example, the lint <code>emptiness</code> will check that your tests don't contain empty functions.</p>
+<hr />
+<h2 id="error-reporting"><a class="header" href="#error-reporting">Error reporting</a></h2>
+<p>Using <a href="https://github.com/zkat/miette">miette</a>'s error reporting capabilities, we can send beautiful errors, so that you know in exactly which parts of your file you must resign as a programmer.</p>
+<p>For example, if you create a function <code>main</code> that is empty, it will give you a warning, a <strong>beautiful one</strong>.</p>
+<div align="center">
+<img src="https://raw.githubusercontent.com/blyxyas/cargo-is-tested/master/assets/output-screenshot.png" height="400" width="auto"/>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-attribute"><a class="header" href="#the-attribute">The Attribute</a></h1>
+<p>The <code>is_tested</code> attribute is used to mark an item with a test, it's an essential part of the ecosystem, even without changing the item.</p>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="en/is_tested.html#admonition-note"></a></p>
+</div>
+<div>
+<p><strong>This attribute will not change your item.</strong> It's just a marker.</p>
+</div>
+</div>
+<h2 id="-installation-1"><a class="header" href="#-installation-1">📦 Installation</a></h2>
+<p>You can install the attribute by writing this in your <code>Cargo.toml</code> file:</p>
+<pre><code class="language-toml">[dependencies]
+is_tested = &quot;0.1.1&quot;
+</code></pre>
+<p>This will unleash the power of <code>is_tested</code> in your hands.</p>
+<h2 id="-usage-1"><a class="header" href="#-usage-1">❓ Usage</a></h2>
+<p>You can use this attribute as any other attribute is used, with <code>#[is_tested]</code>, this attribute takes one argument, a string serving as path, this path is the path (from project's root) of the tests for that item.</p>
+<p>As an example:</p>
+<pre><code class="language-rust  ignore">use is_tested::is_tested;
+
+#[is_tested(&quot;tests/my_func_tests.rs&quot;)]
+fn my_func() {
+	// [...]
+}
+</code></pre>
+<p>You can use the attribute in <strong>any testable item</strong>, like structs, functions, macros...
+Some items aren't included in the ecosystem because testing them isn't useful (like <code>use</code> statements).</p>
+<hr />
+<p>Now continue reading the main chapter, <a href="en/cargo_is_tested.html"><em>The Binary</em></a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-other-attribute"><a class="header" href="#the-other-attribute">The (Other) Attribute</a></h1>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="en/is_not_tested.html#admonition-note"></a></p>
+</div>
+<div>
+<p><strong>This attribute will not change your item.</strong> It's just a marker.</p>
+</div>
+</div>
+<p><code>is_not_tested</code> is an optional crate, and the opposite attribute to <code>is_tested</code>. It can take a reason (<em>optional</em>), and it marks that the item won't be tested, and that's intentional.</p>
+<p>It is comparable to <code>#[rustfmt::skip]</code>.</p>
+<h2 id="-installation-2"><a class="header" href="#-installation-2">📦 Installation</a></h2>
+<p>Write this in your <code>Cargo.toml</code> file to install <code>is_not_tested</code>:</p>
+<pre><code class="language-toml">[dependencies]
+is_not_tested = &quot;0.1.0&quot;
+</code></pre>
+<p>Now, <strong>✨ It's ready to use ✨</strong></p>
+<hr />
+<h2 id="-usage-2"><a class="header" href="#-usage-2">❓ Usage</a></h2>
+<p>Pick the item that you don't want to test, import the <code>is_not_tested</code> attribute, and then use it. It can take a reason, or not.</p>
+<pre><code class="language-rust  ignore">#! is-tested strict
+
+use is_not_tested::is_not_tested;
+
+#[is_not_tested(reason = &quot;Too simple to have useful tests.&quot;)]
+struct MyStruct(String);
+</code></pre>
+<hr />
+<p>Now continue reading the main chapter, <a href="en/cargo_is_tested.html"><em>The Binary</em></a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-lint-list"><a class="header" href="#the-lint-list">The Lint List</a></h1>
+<div id="admonition-im-sowwy-unu" class="admonition tip">
+<div class="admonition-title">
+<p>I'm sowwy UnU</p>
+<p><a class="admonition-anchor-link" href="en/lint_list.html#admonition-im-sowwy-unu"></a></p>
+</div>
+<div>
+<p>The project cannot provide an updated list of all lints implemented, you can check all the lints that exist in the <a href="https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints">official documentation</a> (updated along the source code.)</p>
+</div>
+</div>
+<p><span style="color: #d3d3d3;">There's nothing here... I swear</span></p>
+<div style="break-before: page; page-break-before: always;"></div><script>
+	window.location.href = window.location.origin + "/cargo-is-tested/es/chapter_1.html"
+</script><div style="break-before: page; page-break-before: always;"></div><h1 id="capítulo-1-introducción"><a class="header" href="#capítulo-1-introducción">Capítulo 1: Introducción</a></h1>
+<p><code>is_tested</code> en un ecosistema de <em>crates</em> enfocado en hacer tus tests más fáciles de seguir, y asegurar cierta calidad.</p>
+<p>El ecosistema está formado por estas 3 <em>crates</em>:</p>
+<ul>
+<li><strong><a href="es/cargo_is_tested.html"><code>cargo-is-tested</code></a>:</strong> El ejecutable</li>
+<li><strong><a href="es/is_tested.html"><code>is_tested</code></a>:</strong> El atributo</li>
+<li><strong><a href="es/is_not_tested.html"><code>is_not_tested</code></a>:</strong> El otro atributo (<em>Opcional</em>)</li>
+</ul>
+<p>Vamos a echarle un vistazo a cada una de estas <em>crates</em>, explicar su propósito, cómo usarlas, la instalación y todo lo relacionado a ellas.</p>
+<p>Empezando con el ejecutable y la parte más compleja del proyecto, <code>cargo-is-tested</code>. En la siguiente página.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="el-ejecutable"><a class="header" href="#el-ejecutable">El Ejecutable</a></h1>
+<p><code>cargo-is-tested</code> es usado para probar tus tests, garantizar su calidad, abundancia e importancia.</p>
+<h2 id="-instalación"><a class="header" href="#-instalación">📦 Instalación</a></h2>
+<h3 id="usando-cratesio"><a class="header" href="#usando-cratesio">Usando crates.io</a></h3>
+<p>Puedes instalar el ejecutable usando:</p>
+<pre><code>$	cargo install cargo-is-tested
+</code></pre>
+<h3 id="instalación-manual"><a class="header" href="#instalación-manual">Instalación manual</a></h3>
+<p>Para instalar la herramienta, necesitarás lo siguiente.</p>
+<ul>
+<li><a href="https://www.rust-lang.org/tools/install">Rust</a></li>
+<li>Cargo <sub><span style="color: gray;">(Viene con Rust)</span></sub></li>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a></li>
+</ul>
+<h4 id="clonando-el-repositorio"><a class="header" href="#clonando-el-repositorio">Clonando el repositorio</a></h4>
+<p>Clona el repositorio de Github:</p>
+<pre><code>$	git clone https://github.com/blyxyas/cargo-is-tested
+</code></pre>
+<h4 id="instala-el-proyecto"><a class="header" href="#instala-el-proyecto">Instala el proyecto</a></h4>
+<pre><code>$	cd cargo-is-tested;
+		cargo install --path .
+</code></pre>
+<hr />
+<p>Ahora, <strong>✨ ¡Está listo para usar! ✨</strong></p>
+<p>Ahora puedes usar en cualquier momento el siguiente comando, para comprobar que todos tus tests estén ahí, con la calidad dictada.</p>
+<pre><code>$	cargo is-tested &lt;camino al proyecto&gt;
+</code></pre>
+<h2 id="-uso"><a class="header" href="#-uso">❓ Uso</a></h2>
+<p>Usar el ecosistema es muy fácil, pero requiere saber qué hacer.</p>
+<p>También necesitarás saber como usar <code>is_tested</code> (atributo), por favor, lee <a href="es/is_tested.html">ese capítulo</a> antes de continuar.</p>
+<hr />
+<p><em>¡Ok!</em> Asumiré que ya sabes como usar el atributo <code>is_tested</code>.</p>
+<hr />
+<p>El concepto más innovador en el ecosistema es el uso de <em>shebangs</em> (<code>#!</code>). Sí, resulta que Rust acepta <em>shebangs</em> como un <em>token</em> válido, incluso sin tener mucha funcionalidad.</p>
+<p>Así que, tenemos que usar un <em>shebang</em> al principio de un archivo para declarar que <em>lints</em> queremos <strong>(también posible con la CLI).</strong></p>
+<pre><code>#! is-tested
+</code></pre>
+<p>Tienes que escribir esto en la primera linea de un archivo para activar los tests, el ejecutable va a <em>parsear</em> esto después, y <strong>no causará un error.</strong></p>
+<p>Ahora, puedes aplicar cualquier <em>lint</em> que quieras, y cada item será sujeto a tus <em>lints</em>. Para omitir un item, puedes usar el atributo <code>is_not_tested</code>. <a href="es/is_not_tested.html">Tiene su propio capítulo</a></p>
+<div id="admonition-example" class="admonition example">
+<div class="admonition-title">
+<p>Example</p>
+<p><a class="admonition-anchor-link" href="es/cargo_is_tested.html#admonition-example"></a></p>
+</div>
+<div>
+<p>Quiero probar que todas las funcionen tienen tests asociados, excepto por la función <code>main</code></p>
+</div>
+</div>
+<pre><code class="language-rust  ignore">#! is-tested functions
+
+use is_tested::is_tested;
+use is_not_tested::is_not_tested;
+
+#[is_not_tested(reason = &quot;Es la función principal, duuuh&quot;)] // Reasons son opcionales!
+fn main() {
+    // [...]
+}
+
+#[is_tested(&quot;tests/a_function.rs&quot;)]
+fn a_function() {
+    // [...]
+}
+
+// Aquí no hay tests, Oh no!
+fn another_function() {
+    // [...]
+}
+</code></pre>
+<p>The código superior causará un error, un <strong>🌌 error bonito 🌟</strong>, porque has especificado (con el <em>lint</em> <code>functions</code>) que todas las funciones deben estár comprobadas.</p>
+<p>Hay <em>lints</em> para muchos items (Comprueba <code>cargo is-tested --help</code>), como structs, traits, macros...</p>
+<hr />
+<h3 id="lints-en-los-tests"><a class="header" href="#lints-en-los-tests">Lints en los tests</a></h3>
+<p>Algunos <em>lints</em> son aplicados para asegurar que un tipo de item tiene tests, mientras que otros son aplicados para garantizar que tus tests tienen cierta calidad.</p>
+<p>Por ejemplo, el <em>lint</em> <code>emptiness</code> se asegurará que tus tests no contienen funciones vacías</p>
+<hr />
+<h2 id="reporte-de-errores"><a class="header" href="#reporte-de-errores">Reporte de errores</a></h2>
+<p>Usando las capacidades de reporte de errores de <a href="https://github.com/zkat/miette">miette</a>, podemos mandar errores preciosos, para que puedas saber exáctamente que parte de tu archivo te va hacer replantearte tus habilidades.</p>
+<p>Por ejemplo, si creas una función <code>main</code> que esté vacía, te dará un aviso, pero <strong>uno muy bonito</strong>.</p>
+<div align="center">
+<img src="https://raw.githubusercontent.com/blyxyas/cargo-is-tested/master/assets/output-screenshot.png" height="400" width="auto"/>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="el-atributo"><a class="header" href="#el-atributo">El Atributo</a></h1>
+<p>El atributo <code>is_tested</code> es usado para marcar un item con un test, es una parte esencial del ecosistema, incluso sin cambiar el item.</p>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="es/is_tested.html#admonition-note"></a></p>
+</div>
+<div>
+<p><strong>Este atributo no cambiará tu item.</strong> Es solo un marcador.</p>
+</div>
+</div>
+<h2 id="-instalación-1"><a class="header" href="#-instalación-1">📦 Instalación</a></h2>
+<p>Puedes instalar el atributo escribiendo estó en tu archivo <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+is_tested = &quot;0.1.1&quot;
+</code></pre>
+<p>Esto desatará el poder de <code>is_tested</code> en tus manos.</p>
+<h2 id="-uso-1"><a class="header" href="#-uso-1">❓ Uso</a></h2>
+<p>Puedes usar este atributo como cualquier otro, con <code>#[is_tested]</code>. El atributo toma un argumento, una <em>string</em> que sirve como dirección al archivo en donde están los tests (desde la raíz del proyecto) de ese ítem.</p>
+<p>Por ejemplo:</p>
+<pre><code class="language-rust  ignore">use is_tested::is_tested;
+
+#[is_tested(&quot;tests/my_func_tests.rs&quot;)]
+fn my_func() {
+    // [...]
+}
+</code></pre>
+<p>Puedes usar este atributo en <em>cualquier item testeable</em>, como structs, funciones, macros... Algunos items no están incluidos en el ecosistema porque testearlos no es útil (como <code>use</code>)</p>
+<hr />
+<p>Ahora continúa leyendo el capítulo principal, <a href="es/cargo_is_tested.html">El Ejecutable</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="el-otro-atributo"><a class="header" href="#el-otro-atributo">El (Otro) Atributo</a></h1>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="es/is_not_tested.html#admonition-note"></a></p>
+</div>
+<div>
+<p><strong>Este atributo no cambiará tu item.</strong> Es solo un marcador.</p>
+</div>
+</div>
+<p><code>is_not_tested</code> es una <em>crate</em> opcional, y el atributo opuesto a <code>is_tested</code>. Pueden tomar una razón (<em>opcional</em>), y marca que el item no será testeado intencionalmente.</p>
+<p>Es comparable a <code>#[rustfmt::skip]</code></p>
+<h2 id="-instalación-2"><a class="header" href="#-instalación-2">📦 Instalación</a></h2>
+<p>Escribe esto en tu archivo <code>Cargo.toml</code> para instalar <code>is_not_tested</code>:</p>
+<pre><code class="language-toml">[dependencies]
+is_not_tested = &quot;0.1.0&quot;
+</code></pre>
+<p>Ahora, <strong>✨ ¡Está listo para usar! ✨</strong></p>
+<hr />
+<h2 id="-uso-2"><a class="header" href="#-uso-2">❓ Uso</a></h2>
+<p>Elige el item que no quieres testear, importa el atributo <code>is_not_tested</code>, y luego puedes usarlo. Puede tomar un argumento (reason, la razón de porqué no hay tests), pero es opcional.</p>
+<pre><code class="language-rust  ignore">#! is-tested strict
+
+use is_not_tested::is_not_tested;
+
+#[is_not_tested(reason = &quot;Too simple to have useful tests.&quot;)]
+struct MyStruct(String);
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="la-lista-de-lints"><a class="header" href="#la-lista-de-lints">La Lista de Lints</a></h1>
+<div id="admonition-lo-siento-unu" class="admonition tip">
+<div class="admonition-title">
+<p>Lo siento UnU</p>
+<p><a class="admonition-anchor-link" href="es/lint_list.html#admonition-lo-siento-unu"></a></p>
+</div>
+<div>
+<p>El proyecto no puede proporcionar una lista actualizada de todos los lints implementados, pero puedes comprobar todos los lints que existen en la <a href="https://docs.rs/cargo-is-tested/latest/cargo-is-tested/lints">documentación oficial</a> (Actualizada junto al código fuente).</p>
+</div>
+</div>
+<p><span style="color: #d3d3d3;">Aquí no hay nada... Lo juro</span></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
